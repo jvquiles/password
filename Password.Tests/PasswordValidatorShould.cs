@@ -62,6 +62,15 @@ namespace Password.Tests
             validation.IsValid.Should().Be(false);
             validation.Error.Should().Be("The password must contain at least 2 numbers");
         }
+
+        [Test]
+        public void DoNotValidate1NumberInPasswordAtEnd()
+        {
+            var validator = new PasswordValidator();
+            var validation = validator.Validate("abcdefg1");
+            validation.IsValid.Should().Be(false);
+            validation.Error.Should().Be("The password must contain at least 2 numbers");
+        }
     }
 
     public class PasswordValidator
