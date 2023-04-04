@@ -16,7 +16,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate(string.Empty);
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters");
+            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers");
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("a");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters");
+            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers");
         }
 
         [Test]
@@ -34,14 +34,14 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("ab");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters");
+            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers");
         }
 
         [Test]
-        public void DoNotValidate3CharacterPassword()
+        public void DoNotValidate1Character2NumbersPassword()
         {
             var validator = new PasswordValidator();
-            var validation = validator.Validate("abc");
+            var validation = validator.Validate("a12");
             validation.IsValid.Should().Be(false);
             validation.Error.Should().Be("Password must be at least 8 characters");
         }
