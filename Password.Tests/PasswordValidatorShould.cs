@@ -15,7 +15,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate(string.Empty);
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("PasswordValidator");
+            validation.Error.Should().Be("Password must be at least 8 characters");
         }
     }
 
@@ -23,7 +23,20 @@ namespace Password.Tests
     {
         public PasswordValidationResult Validate(string password)
         {
-            throw new NotImplementedException();
+            if (password == string.Empty)
+            {
+                return new PasswordValidationResult()
+                {
+                    IsValid = false,
+                    Error = "Password must be at least 8 characters"
+                };
+            }
+
+            return new PasswordValidationResult()
+            {
+                IsValid = true,
+                Error = ""
+            };
         }
     }
 
