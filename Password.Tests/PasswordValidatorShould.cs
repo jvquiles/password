@@ -78,30 +78,31 @@ namespace Password.Tests
     {
         public PasswordValidationResult Validate(string password)
         {
+            var validation = new PasswordValidationResult()
+            {
+                IsValid = true,
+                Error = ""
+            };
+
             if (password == string.Empty || password.Length < 8)
             {
-                return new PasswordValidationResult()
-                {
-                    IsValid = false,
-                    Error = "Password must be at least 8 characters"
-                };
+                validation.IsValid = false;
+                validation.Error += "Password must be at least 8 characters";
             }
 
             var twoNumbersRegex = new Regex("(\\D*\\d){2,}");
             if (!twoNumbersRegex.IsMatch(password))
             {
-                return new PasswordValidationResult()
+                validation.IsValid = false;
+                if (!string.IsNullOrEmpty(validation.Error))
                 {
-                    IsValid = false,
-                    Error = "The password must contain at least 2 numbers"
-                };
+                    validation.Error += "\n";
+                }
+
+                validation.Error += "The password must contain at least 2 numbers";
             }
 
-            return new PasswordValidationResult()
-            {
-                IsValid = true,
-                Error = ""
-            };
+            return validation;
         }
     }
 
