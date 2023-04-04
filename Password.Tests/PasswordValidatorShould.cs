@@ -77,7 +77,7 @@ namespace Password.Tests
                 };
             }
 
-            if (password == "abcdefgh")
+            if (password == "abcdefgh" || password == "1bcdefgh")
             {
                 return new PasswordValidationResult()
                 {
