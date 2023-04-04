@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FluentAssertions;
 
 namespace Password.Tests
@@ -86,7 +87,8 @@ namespace Password.Tests
                 };
             }
 
-            if (password == "abcdefgh" || password == "1bcdefgh")
+            var twoNumbersRegex = new Regex("(\\D*\\d){2,}");
+            if (!twoNumbersRegex.IsMatch(password))
             {
                 return new PasswordValidationResult()
                 {
