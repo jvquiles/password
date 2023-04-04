@@ -50,10 +50,7 @@ namespace Password.Tests
     {
         public PasswordValidationResult Validate(string password)
         {
-            if (password == string.Empty
-                || password.Length == 1
-                || password.Length == 2
-                || password.Length == 3)
+            if (password == string.Empty || password.Length < 8)
             {
                 return new PasswordValidationResult()
                 {
