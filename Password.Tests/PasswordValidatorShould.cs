@@ -72,6 +72,15 @@ namespace Password.Tests
             validation.IsValid.Should().Be(false);
             validation.Error.Should().Be("The password must contain at least 2 numbers");
         }
+
+        [Test]
+        public void DoNotValidateNoCapitalLetter()
+        {
+            var validator = new PasswordValidator();
+            var validation = validator.Validate("abcdef21");
+            validation.IsValid.Should().Be(false);
+            validation.Error.Should().Be("password must contain at least one capital letter");
+        }
     }
 
     public class PasswordValidator
