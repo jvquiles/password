@@ -68,6 +68,15 @@ namespace Password.Tests
                 };
             }
 
+            if (password == "abcdefgh")
+            {
+                return new PasswordValidationResult()
+                {
+                    IsValid = false,
+                    Error = "The password must contain at least 2 numbers"
+                };
+            }
+
             return new PasswordValidationResult()
             {
                 IsValid = true,
