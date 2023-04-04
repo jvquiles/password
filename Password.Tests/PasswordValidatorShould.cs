@@ -32,7 +32,7 @@ namespace Password.Tests
     {
         public PasswordValidationResult Validate(string password)
         {
-            if (password == string.Empty)
+            if (password == string.Empty || password.Length == 1)
             {
                 return new PasswordValidationResult()
                 {
