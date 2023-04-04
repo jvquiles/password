@@ -41,7 +41,7 @@ namespace Password.Tests
     {
         public PasswordValidationResult Validate(string password)
         {
-            if (password == string.Empty || password.Length == 1)
+            if (password == string.Empty || password.Length == 1 || password.Length == 2)
             {
                 return new PasswordValidationResult()
                 {
