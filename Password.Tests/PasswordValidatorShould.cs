@@ -26,6 +26,15 @@ namespace Password.Tests
             validation.IsValid.Should().Be(false);
             validation.Error.Should().Be("Password must be at least 8 characters");
         }
+
+        [Test]
+        public void DoNotValidate2CharacterPassword()
+        {
+            var validator = new PasswordValidator();
+            var validation = validator.Validate("ab");
+            validation.IsValid.Should().Be(false);
+            validation.Error.Should().Be("Password must be at least 8 characters");
+        }
     }
 
     public class PasswordValidator
