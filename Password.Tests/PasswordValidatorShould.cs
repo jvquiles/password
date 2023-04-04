@@ -44,6 +44,15 @@ namespace Password.Tests
             validation.IsValid.Should().Be(false);
             validation.Error.Should().Be("Password must be at least 8 characters");
         }
+
+        [Test]
+        public void DoNotValidateNumberlessPassword()
+        {
+            var validator = new PasswordValidator();
+            var validation = validator.Validate("abcdefgh");
+            validation.IsValid.Should().Be(false);
+            validation.Error.Should().Be("The password must contain at least 2 numbers");
+        }
     }
 
     public class PasswordValidator
