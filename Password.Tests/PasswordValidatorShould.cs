@@ -94,9 +94,9 @@ namespace Password.Tests
 
     public class PasswordValidator
     {
-        public PasswordValidationResult Validate(string password)
+        public PasswordValidation Validate(string password)
         {
-            var validation = new PasswordValidationResult()
+            var validation = new PasswordValidation()
             {
                 IsValid = true,
                 Error = ""
@@ -108,61 +108,33 @@ namespace Password.Tests
                 validation.Error += "Password must be at least 8 characters";
             }
 
-            CheckTwoNumberRule(password, validation, new Regex("(\\D*\\d){2,}"), "The password must contain at least 2 numbers");
+            validation.ApplyRule(password, new Regex("(\\D*\\d){2,}"), "The password must contain at least 2 numbers");
 
-            CheckCapitalLetterRule(password, validation, new Regex(".*[A-Z].*"), "password must contain at least one capital letter");
+            validation.ApplyRule(password, new Regex(".*[A-Z].*"), "password must contain at least one capital letter");
 
-            CheckSpecialLetterRule(password, validation, new Regex(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "password must contain at least one special character");
+            validation.ApplyRule(password, new Regex(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"), "password must contain at least one special character");
 
             return validation;
         }
-
-        private static void CheckSpecialLetterRule(string password, PasswordValidationResult validation, Regex specialCharacterRegex, string specialCharacterErrorDescription)
-        {
-            if (!specialCharacterRegex.IsMatch(password))
-            {
-                validation.IsValid = false;
-                if (!string.IsNullOrEmpty(validation.Error))
-                {
-                    validation.Error += "\n";
-                }
-
-                validation.Error += specialCharacterErrorDescription;
-            }
-        }
-
-        private static void CheckCapitalLetterRule(string password, PasswordValidationResult validation, Regex capitalLetterRegex, string capitalLetterErrorDescription)
-        {
-            if (!capitalLetterRegex.IsMatch(password))
-            {
-                validation.IsValid = false;
-                if (!string.IsNullOrEmpty(validation.Error))
-                {
-                    validation.Error += "\n";
-                }
-
-                validation.Error += capitalLetterErrorDescription;
-            }
-        }
-
-        private static void CheckTwoNumberRule(string password, PasswordValidationResult validation, Regex twoNumbersRegex, string twoNumberErrorDescription)
-        {
-            if (!twoNumbersRegex.IsMatch(password))
-            {
-                validation.IsValid = false;
-                if (!string.IsNullOrEmpty(validation.Error))
-                {
-                    validation.Error += "\n";
-                }
-
-                validation.Error += twoNumberErrorDescription;
-            }
-        }
     }
 
-    public class PasswordValidationResult
+    public class PasswordValidation
     {
         public bool IsValid { get; set; }
         public string Error { get; set; }
+
+        public void ApplyRule(string password, Regex specialCharacterRegex, string specialCharacterErrorDescription)
+        {
+            if (!specialCharacterRegex.IsMatch(password))
+            {
+                IsValid = false;
+                if (!string.IsNullOrEmpty(Error))
+                {
+                    Error += "\n";
+                }
+
+                Error += specialCharacterErrorDescription;
+            }
+        }
     }
 }
