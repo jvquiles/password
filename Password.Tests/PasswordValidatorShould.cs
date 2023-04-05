@@ -81,6 +81,15 @@ namespace Password.Tests
             validation.IsValid.Should().Be(false);
             validation.Error.Should().Be("password must contain at least one capital letter");
         }
+
+        [Test]
+        public void DoNotValidateNoSpecialCharacter()
+        {
+            var validator = new PasswordValidator();
+            var validation = validator.Validate("aBcdef21");
+            validation.IsValid.Should().Be(false);
+            validation.Error.Should().Be("password must contain at least one special character");
+        }
     }
 
     public class PasswordValidator
