@@ -108,30 +108,17 @@ namespace Password.Tests
                 validation.Error += "Password must be at least 8 characters";
             }
 
-            var twoNumbersRegex = new Regex("(\\D*\\d){2,}");
-            if (!twoNumbersRegex.IsMatch(password))
-            {
-                validation.IsValid = false;
-                if (!string.IsNullOrEmpty(validation.Error))
-                {
-                    validation.Error += "\n";
-                }
+            CheckTwoNumberRule(password, validation);
 
-                validation.Error += "The password must contain at least 2 numbers";
-            }
+            CheckCapitalLetterRule(password, validation);
 
-            var capitalLetterRegex = new Regex(".*[A-Z].*");
-            if (!capitalLetterRegex.IsMatch(password))
-            {
-                validation.IsValid = false;
-                if (!string.IsNullOrEmpty(validation.Error))
-                {
-                    validation.Error += "\n";
-                }
+            CheckSpecialLetterRule(password, validation);
 
-                validation.Error += "password must contain at least one capital letter";
-            }
+            return validation;
+        }
 
+        private static void CheckSpecialLetterRule(string password, PasswordValidationResult validation)
+        {
             var specialCharacterRegex = new Regex(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
             if (!specialCharacterRegex.IsMatch(password))
             {
@@ -143,8 +130,36 @@ namespace Password.Tests
 
                 validation.Error += "password must contain at least one special character";
             }
+        }
 
-            return validation;
+        private static void CheckCapitalLetterRule(string password, PasswordValidationResult validation)
+        {
+            var capitalLetterRegex = new Regex(".*[A-Z].*");
+            if (!capitalLetterRegex.IsMatch(password))
+            {
+                validation.IsValid = false;
+                if (!string.IsNullOrEmpty(validation.Error))
+                {
+                    validation.Error += "\n";
+                }
+
+                validation.Error += "password must contain at least one capital letter";
+            }
+        }
+
+        private static void CheckTwoNumberRule(string password, PasswordValidationResult validation)
+        {
+            var twoNumbersRegex = new Regex("(\\D*\\d){2,}");
+            if (!twoNumbersRegex.IsMatch(password))
+            {
+                validation.IsValid = false;
+                if (!string.IsNullOrEmpty(validation.Error))
+                {
+                    validation.Error += "\n";
+                }
+
+                validation.Error += "The password must contain at least 2 numbers";
+            }
         }
     }
 
