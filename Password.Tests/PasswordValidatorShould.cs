@@ -16,7 +16,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate(string.Empty);
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("a");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("ab");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("Password must be at least 8 characters\nThe password must contain at least 2 numbers\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("a12");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("Password must be at least 8 characters\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("Password must be at least 8 characters\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("abcdefgh");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("The password must contain at least 2 numbers\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("The password must contain at least 2 numbers\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("1bcdefgh");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("The password must contain at least 2 numbers\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("The password must contain at least 2 numbers\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("abcdefg1");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("The password must contain at least 2 numbers\npassword must contain at least one capital letter");
+            validation.Error.Should().Be("The password must contain at least 2 numbers\npassword must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Password.Tests
             var validator = new PasswordValidator();
             var validation = validator.Validate("abcdef21");
             validation.IsValid.Should().Be(false);
-            validation.Error.Should().Be("password must contain at least one capital letter");
+            validation.Error.Should().Be("password must contain at least one capital letter\npassword must contain at least one special character");
         }
 
         [Test]
@@ -130,6 +130,18 @@ namespace Password.Tests
                 }
 
                 validation.Error += "password must contain at least one capital letter";
+            }
+
+            var specialCharacterRegex = new Regex(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
+            if (!specialCharacterRegex.IsMatch(password))
+            {
+                validation.IsValid = false;
+                if (!string.IsNullOrEmpty(validation.Error))
+                {
+                    validation.Error += "\n";
+                }
+
+                validation.Error += "";
             }
 
             return validation;
