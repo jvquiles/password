@@ -141,7 +141,7 @@ namespace Password.Tests
                     validation.Error += "\n";
                 }
 
-                validation.Error += "";
+                validation.Error += "password must contain at least one special character";
             }
 
             return validation;
